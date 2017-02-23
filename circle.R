@@ -2,7 +2,7 @@ library(cudarpackage)
 
 set.seed(22317)
 
-G <- 10
+G <- 200
 
 reps <- 4
 
@@ -17,8 +17,9 @@ X <- kronecker(diag(2), rep(1, reps))
 y <- t(apply(betas, 2, function(b) rnorm(2*reps, X%*%b, sigma_e)))
 
 data <- formatData(y, X, transform_y=identity)
-priors <- formatPriors(K = G, prior_mean = rep(0,2), prior_sd = rep(sigma0,2), alpha = 1, a = 1, b = 1)
+priors <- formatPriors(K = 50, prior_mean = rep(0,2), prior_sd = rep(sigma0,2), alpha = 1, a = 1, b = .5)
 
-out <- mcmc(data, priors, n_iter = 1000, idx_save = 0:(G-1), thin = 1, verbose = 0)
+out <- mcmc(data, priors, n_iter = 10000, idx_save = 0:(G-1), thin = 1, verbose = 0)
 
 saveRDS(out, file="circle_samples.rds")
+saveRDS(list(truth = betas, data = data, priors = priors), file="circle_truth.rds")
