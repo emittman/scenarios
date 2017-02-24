@@ -1,8 +1,8 @@
 s <- readRDS("circle_samples.rds")
 t <- readRDS("circle_truth.rds")
 library(coda)
-mcmcs <- lapply(1:10*50, function(g) mcmc(s$beta[1,,g]))
-truths <- t$truth[1, 1:10*50]
+mcmcs <- lapply(1:10*5, function(g) mcmc(s$beta[1,,g]))
+truths <- t$truth[1, 1:10*5]
 opar = par(mfrow=c(3,4))
 for(g in 1:10){
   traceplot(mcmcs[[g]], ylim=c(-8,8))
