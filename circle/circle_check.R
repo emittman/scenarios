@@ -1,24 +1,27 @@
 s <- readRDS("circle_samples.rds")
 t <- readRDS("circle_truth.rds")
+
+G <- t$data$G
+
 library(coda)
-mcmcs <- lapply(1:10*5, function(g) mcmc(s$beta[1,,g]))
-truths <- t$truth[1, 1:10*5]
+mcmcs <- lapply(1:10*(G/10), function(g) mcmc(s$beta[1,,g]))
+truths <- t$truth[1, 1:10*(G/10)]
 opar = par(mfrow=c(3,4))
 for(g in 1:10){
   traceplot(mcmcs[[g]], ylim=c(-8,8))
   abline(h=truths[g], col="red")
 }
-par(opar)
+gpar <- par(opar)
 
-mcmcs <- lapply(1:10*50, function(g) mcmc(s$tau2[g,]))
-opar = par(mfrow=c(3,4))
+mcmcs <- lapply(1:10*(G/10), function(g) mcmc(s$tau2[g,]))
+opar = par(gpar)
 for(g in 1:10){
   traceplot(mcmcs[[g]], ylim=c(0,2))
   abline(h=1, col="red")
 }
 par(opar)
 
-g_ran <- sample(200, 1)
+g_ran <- sample(G, 1)
 par(mfrow=c(2,1))
 plot(t(s$beta[,1:500,g_ran]))
 points(t(t$truth[,g_ran]), col="red")
