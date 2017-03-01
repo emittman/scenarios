@@ -4,7 +4,7 @@ set.seed(22317)
 
 G <- 100
 
-N <- 10
+NperV <- 10
 
 sigma0 <- 5
 
@@ -12,9 +12,9 @@ sigma_e <- 1
 
 betas <- sapply(1:G, function(g) c(sigma0 * cos(g*2*pi/G), sigma0 * sin(g*2*pi/G)))
 
-X <- kronecker(diag(2), rep(1, reps))
+X <- kronecker(diag(2), rep(1, NperV))
 
-y <- t(apply(betas, 2, function(b) rnorm(2*reps, X%*%b, sigma_e)))
+y <- t(apply(betas, 2, function(b) rnorm(2*NperV, X%*%b, sigma_e)))
 
 data <- formatData(y, X, transform_y=identity)
 priors <- formatPriors(K = G, prior_mean = rep(0,2), prior_sd = rep(sigma0,2), alpha = 5, a = 3, b = 2)
