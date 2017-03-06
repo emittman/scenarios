@@ -22,9 +22,9 @@ init_chain <- function(priors, G, max_K){
 
 data <- formatData(y, X, transform_y=identity)
 priors <- formatPriors(K = G, prior_mean = rep(0,2), prior_sd = rep(sigma0,2), alpha = 1, a = 3, b = 2)
-chain <- init_chain(priors, G)
+chain <- init_chain(priors, G, K)
 out <- mcmc(data, priors, chain, n_iter = 10000, n_save_P, idx_save = idx_save, thin = 1, verbose = 0)
 
 saveRDS(out, file="small_circle_samples.rds")
-saveRDS(list(truth = betas, data = data, priors = priors), file="small_circle_truth.rds")
+saveRDS(list(truth = betas, zeta = zeta, data = data, priors = priors), file="small_circle_truth.rds")
 
