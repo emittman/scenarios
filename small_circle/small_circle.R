@@ -12,11 +12,11 @@ zeta <- sample(0:(K-1), G, replace=T)
 
 y <- t(apply(betas[,zeta+1], 2, function(b) rnorm(2*NperV, X%*%b, sigma_e)))
 
-init_chain <- function(priors, G){
+init_chain <- function(priors, G, max_K){
   beta <- with(priors, matrix(rnorm(V*K, rep(priors$mu_0, K), rep(sqrt(1/lambda2), K)), V, K))
   tau2 <- with(priors, rgamma(K, a, b))
   pi <- with(priors, rep(K, 1/K))
-  zeta <- with(priors, as.integer(sample(K, G, replace=T) - 1))
+  zeta <- with(priors, as.integer(sample(max_K, G, replace=T) - 1))
   formatChain(beta, pi, tau2, zeta)
 }
 
