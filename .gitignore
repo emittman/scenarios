@@ -6,3 +6,9 @@
 /circle/*.sh
 /circle/*.rds
 /circle/write_up*
+
+/small_circle/*.sh
+/small_circle/*.rds
+/small_circle/*.pdf
+
+/paschold/*.rds
