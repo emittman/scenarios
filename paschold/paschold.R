@@ -47,7 +47,7 @@ chain$C <- matrix(c(0, -1, 1, 1, # heterosis
                     0, -1, 1, -1,
                     0, 1, 1, 1,
                     0, 1, 1, -1), 4, 4, byrow=T)
-chain$P <- 4 #nrow(C). Redundant, since P = V = 4 by default
+chain$P <- as.integer(4) #nrow(C). Redundant, since P = V = 4 by default
 
 idx_save <- sample(data$G, 20) - 1
 
