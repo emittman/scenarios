@@ -42,7 +42,7 @@ pr_tau2_mean <- mean(1/(ols[,'sigma']^2+.01))
 a <- pr_tau2_mean^2 / pr_tau2_var
 b <- pr_tau2_mean / pr_tau2_var
 
-priors <- formatPriors(K=2000, prior_mean = mu_0, prior_sd = sigma_0, alpha = 20, a = a, b = b)
+priors <- formatPriors(K=4000, prior_mean = mu_0, prior_sd = sigma_0, alpha = 20, a = a, b = b)
 init_chain <- function(priors, G){
   beta <- with(priors, matrix(rnorm(V*K, rep(priors$mu_0, K), rep(sqrt(1/lambda2), K)), V, K))
   tau2 <- with(priors, rgamma(K, a, b))
@@ -61,5 +61,5 @@ chain$P <- 4 #nrow(C). Redundant, since P = V = 4 by default
 
 idx_save <- sample(data$G, 20) - 1
 
-out <- mcmc(data, priors, chain, n_iter = 10, n_save_P = 0, idx_save = idx_save, thin = 1, verbose = 0)
+out <- mcmc(data, priors, chain, n_iter = 1e2, n_save_P = 1e2, idx_save = idx_save, thin = 1, verbose = 0)
 saveRDS(out, "output_paschold.rds")
