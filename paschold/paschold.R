@@ -51,5 +51,5 @@ chain$P <- as.integer(4) #nrow(C). Redundant, since P = V = 4 by default
 
 idx_save <- sample(data$G, 20) - 1
 
-out <- mcmc(data, priors, chain, n_iter = 5e3, n_save_P = 1e2, idx_save = idx_save, thin = 1, verbose = 0)
+out <- mcmc(data, priors, chain, n_iter = 1e5, n_save_P = 5e3, idx_save = idx_save, thin = 5, verbose = 0)
 saveRDS(out, "output_paschold.rds")
