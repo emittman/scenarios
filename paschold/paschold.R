@@ -49,7 +49,7 @@ chain$C <- matrix(c(0, -1, 1, 1, # heterosis
                     0, 1, 1, -1), 4, 4) #transpose of C used for computation
 chain$P <- as.integer(4) #nrow(C). Redundant, since P = V = 4 by default
 
-idx_save <- sample(data$G, 20) - 1
+idx_save <- sort(sample(data$G, 100) - 1)
 
-out <- mcmc(data, priors, chain, n_iter = 1e5, n_save_P = 5e3, idx_save = idx_save, thin = 5, verbose = 0)
+out <- mcmc(data, priors, chain, n_iter = 1e6, n_save_P = 5e3, idx_save = idx_save, thin = 50, verbose = 0)
 saveRDS(out, "output_paschold.rds")
