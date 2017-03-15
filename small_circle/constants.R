@@ -1,4 +1,4 @@
-#constants for circle scenario
+#constants for small_circle scenario
 G <- 25
 
 K <- 4
