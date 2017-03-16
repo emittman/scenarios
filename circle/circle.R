@@ -16,3 +16,7 @@ out <- mcmc(data, priors, n_iter = 20000, n_save_P = 100, idx_save = idx_save, t
 
 saveRDS(out, file="circle_samples.rds")
 saveRDS(list(truth = betas, data = data, priors = priors), file="circle_truth.rds")
+
+out2 <- mcmc(data, priors, weightMethod="symmDirichlet", n_iter = 20000, n_save_P = 100,
+             idx_save = idx_save, thin = 1, verbose = 0)
+saveRDS(out2, file="circle_samples_SD.rds")
