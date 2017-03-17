@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 *.Rproj
-/circle/*.sh
+/circle/get_copy.sh
 /circle/*.rds
 /circle/write_up*
 

@@ -1,11 +1,11 @@
 #constants for circle scenario
-G <- 10000
+G <- 5000
 
 NperV <- 5
 
 sigma0 <- 5
 
-sigma_e <- .5
+sigma_e <- .7
 
-idx_save = 0:9 * 1000
+idx_save = 0:99 * 50
 
