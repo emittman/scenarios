@@ -11,4 +11,4 @@ sigma_e <- 1
 
 idx_save = 0:(G-1)
 
-n_save_P = 0
+n_save_P = 1
