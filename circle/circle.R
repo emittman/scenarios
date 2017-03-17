@@ -16,9 +16,9 @@ priors <- formatPriors(K = G, prior_mean = rep(0,2), prior_sd = rep(sigma0,2), a
 out <- mcmc(data, priors, weightMethod="stickBreaking", n_iter = n_iter, n_save_P = n_save_P,
             idx_save = idx_save, thin = thin, verbose = 0)
 
-saveRDS(out, file="circle_samples.rds")
-saveRDS(list(truth = betas, data = data, priors = priors), file="circle_truth.rds")
-
 out2 <- mcmc(data, priors, weightMethod="symmDirichlet", n_iter = n_iter, n_save_P = n_save_P,
-             idx_save = idx_save, thin = thin, verbose = 0)
+             idx_save = idx_save, thin = thin, verbose = 2)
+
+saveRDS(list(truth = betas, data = data, priors = priors), file="circle_truth.rds")
+saveRDS(out, file="circle_samples.rds")
 saveRDS(out2, file="circle_samples_SD.rds")

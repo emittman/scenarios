@@ -9,7 +9,7 @@ sigma_e <- .7
 
 idx_save = 0:99 * 50
 
-n_iter <- 3
+n_iter <- 100
 
 n_save_P <- 1
 
