@@ -1,5 +1,5 @@
 #constants for circle scenario
-G <- 200
+G <- 1000
 
 NperV <- 5
 
