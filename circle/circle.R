@@ -17,7 +17,7 @@ out <- mcmc(data, priors, weightMethod="stickBreaking", n_iter = n_iter, n_save_
             idx_save = idx_save, thin = thin, verbose = 0)
 
 out2 <- mcmc(data, priors, weightMethod="symmDirichlet", n_iter = n_iter, n_save_P = n_save_P,
-             idx_save = idx_save, thin = thin, verbose = 2)
+             idx_save = idx_save, thin = thin, verbose = 0)
 
 saveRDS(list(truth = betas, data = data, priors = priors), file="circle_truth.rds")
 saveRDS(out, file="circle_samples.rds")
