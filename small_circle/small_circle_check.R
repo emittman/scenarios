@@ -1,4 +1,5 @@
-s <- readRDS("small_circle_samples.rds")
+s1 <- readRDS("small_circle_samples_sb.rds")
+s2 <- readRDS("small_circle_samples_sd.rds")
 t <- readRDS("small_circle_truth.rds")
 
 source("constants.R")
@@ -12,7 +13,11 @@ t$mles <- with(t, data$xty/(data$N/data$V))
 t$est_prec <- with(t, sapply(1:G, function(g){
   data$N / (data$yty[g] + sum(mles[,g]^2) * data$N/data$V - 2 * t(mles[,g]) %*% data$xty[,g])
 }))
-mcmcs <- lapply(1:length(idx_save), function(g) mcmc(s[[1]]$beta[1,,g]))
+
+##Traceplots of model parameters
+
+#stick-breaking
+mcmcs <- lapply(1:length(idx_save), function(g) mcmc(s1[[1]]$beta[1,,g]))
 truths <- with(t, truth[1,zeta+1])
 opar = par(mfrow=c(3,4))
 for(g in 1:12){
@@ -23,13 +28,36 @@ for(g in 1:12){
 gpar <- par(opar) # reset plot grid
 opar <- par(gpar)
 
-mcmcs <- lapply(1:length(idx_save), function(g) mcmc(s[[1]]$tau2[g,]))
+mcmcs <- lapply(1:length(idx_save), function(g) mcmc(s1[[1]]$tau2[g,]))
 for(g in 1:12){
   traceplot(mcmcs[[g]])
   abline(h=t$est_prec[idx_save[g]+1], col="red")
   abline(h=1/sigma_e^2, col="blue", lty=2)
 }
+
 gpar <- par(opar)
+opar <- par(gpar)
+#symmetric Dirichlet
+mcmcs <- lapply(1:length(idx_save), function(g) mcmc(s2[[1]]$beta[1,,g]))
+truths <- with(t, truth[1,zeta+1])
+opar = par(mfrow=c(3,4))
+for(g in 1:12){
+  traceplot(mcmcs[[g]])
+  abline(h=t$mles[1, idx_save[g]+1], col="red")
+  abline(h=truths[g], col="blue", lty="dashed")
+}
+gpar <- par(opar) # reset plot grid
+opar <- par(gpar)
+
+mcmcs <- lapply(1:length(idx_save), function(g) mcmc(s2[[1]]$tau2[g,]))
+for(g in 1:12){
+  traceplot(mcmcs[[g]])
+  abline(h=t$est_prec[idx_save[g]+1], col="red")
+  abline(h=1/sigma_e^2, col="blue", lty=2)
+}
+
+gpar <- par(opar)
+
 
 g_ran <- sample(length(idx_save), 1)
 opar <- par(mfrow=c(2,1))
