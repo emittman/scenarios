@@ -22,7 +22,7 @@ priors <- formatPriors(K = G, prior_mean = rep(0,2), prior_sd = rep(sigma0,2), a
 #out2 <- mcmc(data, priors, methodPi="symmDirichlet", n_iter = n_iter,
 #             n_save_P=n_save_P, idx_save = idx_save, thin = 1, verbose = 0, C=C)
 out3 <- mcmc(data, priors, methodPi="stickBreaking", alpha_fixed = F, n_iter = 3,
-             n_save_P=1, idx_save = idx_save, thin = 1, verbose =3, C=C)
+             n_save_P=1, idx_save = idx_save, thin = 1, verbose =2, C=C)
 out4 <- mcmc(data, priors, methodPi="symmDirichlet", alpha_fixed = F, n_iter = 3,
             n_save_P=1, idx_save = idx_save, thin = 1, verbose =0, C=C)
 saveRDS(out1, file="small_circle_samples_sb.rds")
