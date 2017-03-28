@@ -1,4 +1,4 @@
-s <- readRDS("circle_samples_freealpha.rds")
+s <- readRDS("circle_samples_SD_freealpha.rds")
 t <- readRDS("circle_truth.rds")
 
 source("constants.R")
@@ -47,21 +47,16 @@ plot(s[[1]]$beta[1,1001:2000,g_ran], s[[1]]$tau2[g_ran,1001:2000])
 library(ggplot2)
 library(dplyr)
 library(ggforce)
-df <- data.frame(x=runif(1e6))
-df <- dplyr::mutate(df, y=runif(1e6, 0, x))
-df <- dplyr::mutate(df, weight = dnorm(y, .3, .1))
-ggplot(df, aes(x, y, weight=weight)) + geom_hex(bins=45) + 
-  theme_bw() + coord_fixed()
 
 beta_df <- data.frame(x = as.numeric(s[[1]]$beta[1,1001:2000,]),
                       y = as.numeric(s[[1]]$beta[2,1001:2000,]))
 ggplot(beta_df, aes(x, y)) + geom_hex() + coord_fixed()
 
-P <- with(s[[1]], data.frame(x1=as.numeric(P[,2,]),x2=as.numeric(P[,3,]), w=as.numeric(P[,1,])))
+P <- with(s[[1]], data.frame(x1=as.numeric(P[,2,50:100]),x2=as.numeric(P[,3,50:100]), w=as.numeric(P[,1,50:100])))
 true_means <- data.frame(x0=0, y0=0, r=5)
 
 P %>%
-ggplot(aes(x1, x2, weight=w)) + geom_hex(bins=25) + scale_fill_continuous(trans="log", low="white", high="black") +
+ggplot(aes(x1, x2, weight=w)) + geom_hex(bins=80) + scale_fill_continuous(low="lightgrey", high="darkblue") +
   geom_circle(data=true_means, inherit.aes = F, aes(x0=x0,y0=y0,r=r), color="red", size=1) + theme_bw()
 
 

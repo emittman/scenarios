@@ -13,4 +13,4 @@ n_iter <- 20000
 
 n_save_P <- 100
 
-thin <- 10
+thin <- 1
