@@ -32,7 +32,7 @@ pr_tau2_mean <- mean(1/(ols[,'sigma']^2+.01))
 a <- pr_tau2_mean^2 / pr_tau2_var
 b <- pr_tau2_mean / pr_tau2_var
 
-priors <- formatPriors(K=2500, prior_mean = mu_0, prior_sd = sigma_0, alpha = 20, a = a, b = b)
+priors <- formatPriors(K=2500, prior_mean = mu_0, prior_sd = sigma_0, alpha = 20, a = a, b = b, A=.1, B=.01)
 init_chain <- function(priors, G){
   beta <- with(priors, matrix(rnorm(V*K, rep(priors$mu_0, K), rep(sqrt(1/lambda2), K)), V, K))
   tau2 <- with(priors, rgamma(K, a, b))
@@ -50,6 +50,11 @@ chain$C <- matrix(c(0, -1, 1, 1, # heterosis
 chain$P <- as.integer(4) #nrow(C). Redundant, since P = V = 4 by default
 
 idx_save <- sort(sample(data$G, 100) - 1)
-
-out <- mcmc(data, priors, chain, n_iter = 1e6, n_save_P = 5e3, idx_save = idx_save, thin = 50, verbose = 0)
-saveRDS(out, "output_paschold.rds")
+n_iter <- 50000
+n_save_P <- 1000
+out_symm <- list()
+for(i in 1:4){
+  out_symm[[i]] <- mcmc(data, priors, methodPi="stickBreaking", chain = chain, n_iter = n_iter,
+                        alpha_fixed = FALSE, n_save_P = n_save_P, idx_save = idx_save, thin = 10, verbose = 0)
+}
+saveRDS(out_symm, "output_stick_paschold.rds")
