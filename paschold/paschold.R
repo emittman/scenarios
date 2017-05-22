@@ -13,48 +13,24 @@ groups <- rep(1:4, each=4)
 
 data <- formatData(counts=y, X=X, groups = groups)
 
-ols <- lapply(1:nrow(log_yp1), function(g){
-  fit <- lm(log_yp1[g,] ~ 0 + X[groups,])
-  out <- c(coef(fit), sigma(fit))
-  names(out) <- c("parent", "parent_hd", "hybrid", "hybrid_hd", "sigma")
-  out  
-})
+estimates <- indEstimates(data)
 
-ols <- do.call("rbind", ols)
+priors <- formatPriors(K=5000, estimates = estimates, A=3, B=3/sqrt(nrow(y)))
 
-#set priors for beta_k: multiply by 1.5 sd of ols, set prior mean to median of ols
-mu_0 <- sapply(1:4, function(v) median(ols[,v]))
-sigma_0 <- sapply(1:4, function(v) 1.5 *sd(ols[,v]) )
+C <- list(hph = matrix(c(0, -1, 1, 0, 
+                         0, 1,  1, 0),2,4, byrow=T),
+          lph = matrix(c(0, -1, -1, 0,
+                         0, 1, -1, 0),2,4, byrow=T),
+          hybpos = matrix(c(0, 0, 1, 0),1,2, byrow=T),
+          hybneg = matrix(c(0, 0, -1, 0),1, 2, byrow=T)) 
 
-#set priors for tau_k: method of moments based on ols estimates of sigma_g
-pr_tau2_var <- var(1/(ols[,'sigma']^2+.01)) #increase variance estimates slightly for stability
-pr_tau2_mean <- mean(1/(ols[,'sigma']^2+.01))
-a <- pr_tau2_mean^2 / pr_tau2_var
-b <- pr_tau2_mean / pr_tau2_var
-
-priors <- formatPriors(K=2500, prior_mean = mu_0, prior_sd = sigma_0, alpha = 20, a = a, b = b, A=.1, B=.01)
-init_chain <- function(priors, G){
-  beta <- with(priors, matrix(rnorm(V*K, rep(priors$mu_0, K), rep(sqrt(1/lambda2), K)), V, K))
-  tau2 <- with(priors, rgamma(K, a, b))
-  pi <- with(priors, rep(1/K, K))
-  zeta <- with(priors, as.integer(sample(K, G, replace=T) - 1))
-  formatChain(beta, pi, tau2, zeta)
-}
-
-
-chain <- init_chain(priors, data$G)
-chain$C <- matrix(c(0, -1, 1, 1, # heterosis
-                    0, -1, 1, -1,
-                    0, 1, 1, 1,
-                    0, 1, 1, -1), 4, 4) #transpose of C used for computation
-chain$P <- as.integer(4) #nrow(C). Redundant, since P = V = 4 by default
-
-idx_save <- sort(sample(data$G, 100) - 1)
-n_iter <- 50000
-n_save_P <- 1000
+idx_save <- 1:10*200-1
+n_iter <- 30000
+warmup <- 5000
+n_save_P <- 300
 out_symm <- list()
-for(i in 1:4){
-  out_symm[[i]] <- mcmc(data, priors, methodPi="stickBreaking", chain = chain, n_iter = n_iter,
-                        alpha_fixed = FALSE, n_save_P = n_save_P, idx_save = idx_save, thin = 10, verbose = 0)
-}
-saveRDS(out_symm, "output_stick_paschold.rds")
+s <- mcmc(data = data, priors = priors, methodPi="stickBreaking", n_iter = n_iter, C = C,
+                        alpha_fixed = FALSE, n_save_P = n_save_P, warmup= warmup, idx_save = idx_save,
+                        thin = 10, verbose = 0, estimates=estimates)
+
+saveRDS(out_symm, "samplesSB_522.rds")
