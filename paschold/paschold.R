@@ -28,9 +28,8 @@ idx_save <- 1:10*200-1
 n_iter <- 30000
 warmup <- 5000
 n_save_P <- 300
-out_symm <- list()
 s <- mcmc(data = data, priors = priors, methodPi="stickBreaking", n_iter = n_iter, C = C,
                         alpha_fixed = FALSE, n_save_P = n_save_P, warmup= warmup, idx_save = idx_save,
                         thin = 10, verbose = 0, estimates=estimates)
 
-saveRDS(out_symm, "samplesSB_522.rds")
+saveRDS(s, "samplesSB_522.rds")
