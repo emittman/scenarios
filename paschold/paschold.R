@@ -1,6 +1,6 @@
 library(cudarpackage)
 library(dplyr)
-
+set.seed(1001001001)
 y <- readRDS("filtered_counts.rds")
 
 log_yp1 <- log(y+1)
@@ -15,7 +15,7 @@ data <- formatData(counts=y, X=X, groups = groups)
 
 estimates <- indEstimates(data)
 
-priors <- formatPriors(K=5000, estimates = estimates, A=3, B=3/sqrt(nrow(y)))
+priors <- formatPriors(K=5000, estimates = estimates, A=1.5, B=1.5/sqrt(nrow(y)))
 
 C <- list(hph = matrix(c(0, -1, 1, 0, 
                          0, 1,  1, 0),2,4, byrow=T),
@@ -32,4 +32,4 @@ s <- mcmc(data = data, priors = priors, methodPi="stickBreaking", n_iter = n_ite
                         alpha_fixed = FALSE, n_save_P = n_save_P, warmup= warmup, idx_save = idx_save,
                         thin = 10, verbose = 0, estimates=estimates)
 
-saveRDS(s, "samplesSB_522.rds")
+saveRDS(s, "samplesSB_524.rds")
