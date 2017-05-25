@@ -1,7 +1,7 @@
 #constants for small_circle scenario
 G <- 25
 
-K <- 8
+K <- 50
 
 NperV <- 5
 
@@ -13,4 +13,4 @@ idx_save = 0:(G-1)
 
 n_save_P = 100
 
-n_iter = 10000
+n_iter = 1000
