@@ -25,9 +25,9 @@ C <- list(hph = matrix(c(0, -1, 1, 0,
           hybneg = matrix(c(0, 0, -1, 0),1, 4, byrow=T)) 
 
 idx_save <- 1:10*200-1
-n_iter <- 5000
-warmup <- 1000
-n_save_P <- 300
+n_iter <- 50000
+warmup <- 10000
+n_save_P <- 100
 s <- mcmc(data = data, priors = priors, methodPi="stickBreaking", n_iter = n_iter, C = C,
                         alpha_fixed = FALSE, n_save_P = n_save_P, warmup= warmup, idx_save = idx_save,
                         thin = 10, verbose = 0, estimates=estimates)
