@@ -11,6 +11,8 @@ idx_save = 0:floor(G/10-1) * 10
 
 n_iter <- 20000
 
+warmup <- 10000
+
 n_save_P <- 100
 
 thin <- 1
