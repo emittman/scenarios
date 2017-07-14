@@ -24,7 +24,7 @@ system.time(out3 <- mcmc(data, priors, methodPi="stickBreaking", alpha_fixed=FAL
              idx_save = idx_save, thin = thin, verbose = 0, warmup=warmup))
 
 system.time(out4 <- mcmc(data, priors, methodPi="symmDirichlet", alpha_fixed=FALSE, n_iter = n_iter, n_save_P = n_save_P,
-             idx_save = idx_save, thin = thin, verbose = 0, s_RW_alpha = 3, warmup=warmup))
+             idx_save = idx_save, thin = thin, verbose = 0, warmup=warmup))
 
 
 saveRDS(list(truth = betas, data = data, priors = priors), file="circle_truth.rds")
