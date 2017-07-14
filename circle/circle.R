@@ -12,13 +12,13 @@ y <- t(apply(betas, 2, function(b) rnorm(2*NperV, X%*%b, sigma_e)))
 
 data <- formatData(y, X, transform_y=identity)
 priors <- formatPriors(K = G/2, prior_mean = rep(0,2), prior_sd = rep(sigma0,2),
-                       alpha = 10, a = 3, b = 2, A = .01, B = .01)
+                       a = 3, b = 2, A = .01, B = .01)
 
 system.time(out1 <- mcmc(data, priors, methodPi="stickBreaking", n_iter = n_iter, n_save_P = n_save_P,
-            idx_save = idx_save, thin = thin, verbose = 0))
+            idx_save = idx_save, thin = thin, verbose = 0, alpha = 10))
 
 system.time(out2 <- mcmc(data, priors, methodPi="symmDirichlet", n_iter = n_iter, n_save_P = n_save_P,
-             idx_save = idx_save, thin = thin, verbose = 0))
+             idx_save = idx_save, thin = thin, verbose = 0, alpha = 10))
 
 system.time(out3 <- mcmc(data, priors, methodPi="stickBreaking", alpha_fixed=FALSE, n_iter = n_iter, n_save_P = n_save_P,
              idx_save = idx_save, thin = thin, verbose = 0))
