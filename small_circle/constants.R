@@ -9,8 +9,10 @@ sigma0 <- 5
 
 sigma_e <- 1
 
-idx_save = 0:(G-1)
+idx_save = 1:G
 
 n_save_P = 100
 
-n_iter = 1000
+n_iter = 20000
+
+warmup = 1000
